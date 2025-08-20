@@ -16,7 +16,7 @@ app.use(swagger({
 }));
 
 
-app.get('/', () => ({ status: 'FoodVision API Online!' }));
+app.get('Status servidor', () => ({ status: 'FoodVision API Online!' }));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
