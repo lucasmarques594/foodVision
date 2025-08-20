@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    container_name: foodvision_app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    develop:
+      watch:
+        - path: .
+          target: /usr/src/app
+          action: sync
+          ignore:
+            - node_modules
+        - path: package.json
+          target: /usr/src/app/package.json
+          action: sync
+        - path: package-lock.json
+          target: /usr/src/app/package-lock.json
+          action: sync
+  db:
+    image: postgres:15-alpine
+    container_name: foodvision_db
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
