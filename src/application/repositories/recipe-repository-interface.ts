@@ -1,4 +1,4 @@
-import { Recipe } from "../../domain/entities/Recipe";
+import { Recipe } from "../../domain/entities/recipe";
 
 export interface IRecipeRepository {
   save(recipe: Recipe): Promise<Recipe>;
