@@ -1,11 +1,12 @@
 import { Recipe } from '../../domain/entities/recipe';
-import { IAIService } from '../../infra/ai/ai-service';
-import { IRecipeRepository } from '../repositories/recipe-repository-interface';
+import { Ingredient } from '../../domain/value-objects/ingredient';
+import { IRecipeRepository } from '../../domain/repositories/recipe-repository-interface';
+import { IGenkitAIService } from '../../infra/ai/i-genkit-ai-service';
 
 export class CreateRecipeUseCase {
   constructor(
     private recipeRepository: IRecipeRepository,
-    private aiService: IAIService
+    private aiService: IGenkitAIService
   ) {}
 
   async execute(imageFiles: File[]): Promise<Recipe> {
@@ -13,14 +14,16 @@ export class CreateRecipeUseCase {
       throw new Error('Exatamente 3 arquivos de imagem são necessários.');
     }
 
-    const ingredients = await this.aiService.identifyIngredientsFromImages(imageFiles);
-    if (ingredients.length === 0) {
+    const ingredientNames = await this.aiService.identifyIngredientsFromImages(imageFiles);
+    if (ingredientNames.length === 0) {
       throw new Error('Nenhum ingrediente pôde ser identificado nas imagens.');
     }
 
-    const { recipeName, instructions } = await this.aiService.generateRecipeFromIngredients(ingredients);
+    const ingredients = ingredientNames.map(name => Ingredient.create(name));
+
+    const { recipeName, instructions } = await this.aiService.generateRecipeFromIngredients(ingredientNames);
     
-    const recipe = new Recipe({
+    const recipe = Recipe.create({
       ingredients,
       recipeName,
       instructions,
