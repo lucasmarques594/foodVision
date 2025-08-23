@@ -28,7 +28,7 @@ const recipeController = new RecipeController(
 const app = new Elysia();
 
 app.use(swagger({
-    path: '/api-docs',
+    path: '/swagger',
     documentation: {
         info: {
             title: 'FoodVision API',
