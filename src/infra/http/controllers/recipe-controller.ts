@@ -1,4 +1,3 @@
-import { Context } from 'elysia';
 import { CreateRecipeUseCase } from '../../../application/usecases/create-recipe-use-case';
 import { DeleteRecipeUseCase } from '../../../application/usecases/delete-recipe-use-case';
 import { GetRecipeByIdUseCase } from '../../../application/usecases/get-recipe-by-id-use-case';
@@ -23,10 +22,9 @@ export class RecipeController {
     };
   }
 
-  async create(ctx: Context) {
-    const { files } = ctx.body as { files: File[] };
+  async create(ctx: { body: { files: File[] }; set: { status?: number | string } }) {
     try {
-      const recipe = await this.createRecipeUseCase.execute(files);
+      const recipe = await this.createRecipeUseCase.execute(ctx.body.files);
       ctx.set.status = 201;
       return this.formatRecipeToDTO(recipe);
     } catch (error: any) {
@@ -35,14 +33,14 @@ export class RecipeController {
     }
   }
 
-  async list(ctx: Context) {
+  async list() {
     const recipes = await this.listRecipesUseCase.execute();
     return recipes.map(this.formatRecipeToDTO);
   }
 
-  async getById(ctx: Context) {
-    const { id } = ctx.params;
-    const recipe = await this.getRecipeByIdUseCase.execute(id);
+  async getById(ctx: { params: { id: string }; set: { status?: number | string } }) {
+    const recipe = await this.getRecipeByIdUseCase.execute(ctx.params.id);
+
     if (!recipe) {
       ctx.set.status = 404;
       return { error: 'Receita não encontrada.' };
@@ -50,10 +48,9 @@ export class RecipeController {
     return this.formatRecipeToDTO(recipe);
   }
 
-  async delete(ctx: Context) {
-    const { id } = ctx.params;
+  async delete(ctx: { params: { id: string }; set: { status?: number | string } }) {
     try {
-      await this.deleteRecipeUseCase.execute(id);
+      await this.deleteRecipeUseCase.execute(ctx.params.id);
       ctx.set.status = 204;
       return;
     } catch (error: any) {
