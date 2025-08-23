@@ -27,6 +27,14 @@ const recipeController = new RecipeController(
 
 const app = new Elysia();
 
+setupRecipeRoutes(app, recipeController);
+app.get('/', () => ({ status: 'FoodVision API is running!' }), {
+  detail: {
+    summary: 'Verifica o status da API',
+    tags: ['Status'] 
+  }
+});
+
 app.use(swagger({
     path: '/swagger',
     documentation: {
@@ -34,12 +42,12 @@ app.use(swagger({
             title: 'FoodVision API',
             version: '3.0.0',
             description: 'API para gerar receitas a partir de imagens (implementação direta com Google AI).'
-        }
+        },
+        tags: [
+          { name: 'Recipes', description: 'Endpoints para gerenciar receitas' },
+          { name: 'Status', description: 'Endpoints para verificar o status da API' }
+        ]
     }
 }));
-
-setupRecipeRoutes(app, recipeController);
-
-app.get('/', () => ({ status: 'FoodVision API is running!' }));
 
 export { app };
