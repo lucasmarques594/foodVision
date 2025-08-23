@@ -3,8 +3,8 @@ import { IAIService } from './ai-service-interface';
 
 export class GeminiAIService implements IAIService {
   private genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-  private visionModel = this.genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
-  private textModel = this.genAI.getGenerativeModel({ model: 'gemini-pro' });
+  private visionModel = this.genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });
+  private textModel = this.genAI.getGenerativeModel({ model: 'gemini-1.5-pro-latest' });
 
   private async fileToGenerativePart(file: File) {
     const buffer = await file.arrayBuffer();
