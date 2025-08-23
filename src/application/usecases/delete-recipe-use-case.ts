@@ -1,4 +1,4 @@
-import { IRecipeRepository } from '../repositories/recipe-repository-interface';
+import { IRecipeRepository } from '../../domain/repositories/recipe-repository-interface';
 
 export class DeleteRecipeUseCase {
   constructor(private recipeRepository: IRecipeRepository) {}

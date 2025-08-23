@@ -10,9 +10,7 @@
     "elysia": "latest",
     "pg": "^8.11.3",
     "dotenv": "^16.4.5",
-    "@genkit-ai/core": "^1.2.0",
-    "@genkit-ai/googleai": "^1.16.1",
-    "zod": "^3.22.4"
+    "@google/generative-ai": "^0.7.1"
   },
   "devDependencies": {
     "@types/pg": "^8.11.2",

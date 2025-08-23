@@ -1,5 +1,5 @@
 import { Recipe } from '../../domain/entities/recipe';
-import { IRecipeRepository } from '../repositories/recipe-repository-interface';
+import { IRecipeRepository } from '../../domain/repositories/recipe-repository-interface';
 
 export class ListRecipesUseCase {
   constructor(private recipeRepository: IRecipeRepository) {}
