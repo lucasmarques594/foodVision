@@ -9,6 +9,9 @@ import { GetRecipeByIdUseCase } from '../../application/usecases/get-recipe-by-i
 import { DeleteRecipeUseCase } from '../../application/usecases/delete-recipe-use-case';
 import { RecipeController } from './controllers/recipe-controller';
 import { setupRecipeRoutes } from './routes/recipe-routes';
+import { cors } from '@elysiajs/cors';    
+
+
 
 const recipeRepository = new PgRecipeRepository();
 const aiService = new GeminiAIService();
@@ -26,6 +29,7 @@ const recipeController = new RecipeController(
 );
 
 const app = new Elysia();
+app.use(cors());
 
 setupRecipeRoutes(app, recipeController);
 app.get('/', () => ({ status: 'FoodVision API is running!' }), {
