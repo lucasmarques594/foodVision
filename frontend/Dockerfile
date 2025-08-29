@@ -1,20 +1,26 @@
-
-FROM oven/bun:1.0 as deps
+FROM oven/bun:1.0 AS deps
 WORKDIR /app
-COPY package.json bun.lockb ./
-RUN bun install --frozen-lockfile
 
-FROM oven/bun:1.0 as builder
+COPY package.json bun.lock* ./
+
+RUN bun install
+
+
+FROM node:20-alpine AS builder
 WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+
 COPY . .
-RUN bun run build
+COPY --from=deps /app/node_modules ./node_modules
 
-FROM oven/bun:1.0 as runner
+RUN npm run build
+
+
+FROM node:20-alpine AS runner
 WORKDIR /app
+
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
-CMD ["bun", "start"]
+CMD ["node", "server.js"]

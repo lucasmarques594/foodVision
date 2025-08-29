@@ -2,12 +2,12 @@ FROM oven/bun:1.0
 
 WORKDIR /usr/src/app
 
-COPY package.json bun.lock ./
+COPY package.json ./
 
 RUN bun install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["bun", "run", "start"]
