@@ -1,5 +1,4 @@
-import nextConfig from 'next/config';
-
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
 };
