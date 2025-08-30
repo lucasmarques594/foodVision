@@ -66,7 +66,7 @@ export default function HomePage() {
       <div className="w-full max-w-2xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold">
-             FoodVision
+             FoodVision, IA receitas
           </h1>
           <p className="mt-4 text-lg text-muted-foreground">
             Envie 3 imagens de ingredientes e a IA criará uma receita para você!
