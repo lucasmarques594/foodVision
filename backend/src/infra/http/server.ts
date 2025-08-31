@@ -1,6 +1,5 @@
 import Elysia from 'elysia';
 import { swagger } from '@elysiajs/swagger';
-
 import { PgRecipeRepository } from '../database/pg-recipe-repository';
 import { GeminiAIService } from '../ai/gemini-ai-service';
 import { CreateRecipeUseCase } from '../../application/usecases/create-recipe-use-case';
@@ -11,7 +10,8 @@ import { RecipeController } from './controllers/recipe-controller';
 import { setupRecipeRoutes } from './routes/recipe-routes';
 import { cors } from '@elysiajs/cors';    
 
-
+const app = new Elysia();
+app.use(cors());
 
 const recipeRepository = new PgRecipeRepository();
 const aiService = new GeminiAIService();
@@ -28,8 +28,7 @@ const recipeController = new RecipeController(
   deleteRecipeUseCase
 );
 
-const app = new Elysia();
-app.use(cors());
+
 
 setupRecipeRoutes(app, recipeController);
 app.get('/', () => ({ status: 'FoodVision API is running!' }), {
