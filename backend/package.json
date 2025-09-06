@@ -11,10 +11,12 @@
     "@google/generative-ai": "^0.7.1",
     "dotenv": "^16.4.5",
     "elysia": "latest",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "types": "^0.1.1"
   },
   "devDependencies": {
     "@types/pg": "^8.11.2",
+    "bun-types": "^1.2.21",
     "typescript": "^5.3.3"
   }
 }
