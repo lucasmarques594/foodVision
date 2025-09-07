@@ -11,8 +11,10 @@ import { setupRecipeRoutes } from './routes/recipe-routes';
 import { cors } from '@elysiajs/cors';    
 
 const app = new Elysia();
-app.use(cors());
-
+app.use(cors({
+  origin: '*', 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
 const recipeRepository = new PgRecipeRepository();
 const aiService = new GeminiAIService();
 
