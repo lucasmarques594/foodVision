@@ -1,79 +1,133 @@
-🍲 FoodVision
-FoodVision é um projeto full-stack que utiliza Inteligência Artificial para transformar imagens de ingredientes em receitas completas e detalhadas. Basta fazer o upload de três fotos, e a aplicação identificará os itens e criará uma receita única para você.
-O projeto é totalmente containerizado com Docker e orquestrado com Docker Compose, seguindo as melhores práticas de arquitetura de software para garantir escalabilidade e manutenibilidade.
-✨ Tecnologias Utilizadas
-Este projeto integra um ecossistema de tecnologias modernas para criar uma experiência robusta e performática.
-Frontend:
-Next.js: Framework React para interfaces de usuário reativas e performáticas.
-TypeScript: Para um código mais seguro e manutenível.
-Shadcn/UI & Tailwind CSS: Para uma UI bonita, acessível e totalmente personalizável.
-Backend:
-Elysia.js: Framework backend de alta performance construído sobre o Bun.
-Bun: Runtime JavaScript ultra-rápido.
-PostgreSQL: Banco de dados relacional para persistência dos dados.
-Clean Architecture & DDD: Padrões de arquitetura para um código organizado e escalável.
-Inteligência Artificial:
-Google Gemini (1.5 Pro): Modelo de IA multimodal para reconhecimento de imagens e geração de texto.
-DevOps & Infraestrutura:
-Docker & Docker Compose: Para containerização e orquestração de todos os serviços.
-Nginx: Como Reverse Proxy para gerenciar e rotear o tráfego entre o frontend e o backend.
-🏛️ Arquitetura e Funcionamento
-O projeto é estruturado como um monorepo com serviços independentes que se comunicam através de uma rede Docker, orquestrados pelo Nginx.
-Fluxo da Requisição
-Quando um usuário acessa a aplicação, o Nginx atua como o "porteiro", direcionando o tráfego de forma inteligente:
-code
-Code
-Usuário (Navegador)
-|
-v
-Nginx (localhost:3000)
-|
-+-- Requisição para a página ('/') --> [ Frontend (Next.js) ]
-|
-+-- Requisição para a API ('/api/\*') --> [ Backend (Elysia.js) ]
-Detalhes dos Serviços
-nginx (O Porteiro):
-É o único ponto de entrada da aplicação na porta 3000.
-Serve os arquivos estáticos e a aplicação Next.js para qualquer requisição que não comece com /api/.
-Redireciona todas as requisições que começam com /api/ para o serviço de backend na porta 8080, removendo o prefixo /api no processo.
-frontend (A Interface):
-Uma aplicação Next.js responsável por toda a experiência do usuário.
-Faz chamadas de API para caminhos relativos (ex: fetch('/api/recipes')). Ele não precisa saber onde o backend está; o Nginx cuida disso.
-backend (O Cérebro):
-Uma API REST construída com Elysia.js.
-Recebe as imagens, se comunica com a API do Google Gemini para identificar ingredientes e gerar a receita, e salva o resultado no banco de dados PostgreSQL.
-db (A Memória):
-Um container PostgreSQL que armazena todas as receitas geradas. Os dados são persistidos em um volume Docker para não serem perdidos.
-🚀 Como Executar
-Para rodar este projeto, você só precisa do Docker e de uma chave de API do Google Gemini.
-Pré-requisitos
-Docker e Docker Compose instalados.
-Uma chave de API do Google Gemini. Obtenha a sua em Google AI Studio.
-Passos para Instalação
-Clonar o Repositório
-code
-Bash
-git clone https://github.com/seu-usuario/foodvision.git
-cd foodvision
-Configurar Variáveis de Ambiente
-Navegue até a pasta backend.
-Crie uma cópia do arquivo .env.example e renomeie para .env.
-code
-Bash
-cp backend/.env.example backend/.env
-Abra o arquivo backend/.env e insira sua chave da API do Gemini na variável GEMINI_API_KEY.
-Subir os Containers
-Volte para a pasta raiz do projeto.
-Execute o comando mágico do Docker Compose. Ele irá construir as imagens e iniciar todos os serviços.
-code
-Bash
-docker compose up --build
-O primeiro build pode levar alguns minutos. Os builds subsequentes serão muito mais rápidos.
-💻 Como Usar
-Após os containers estarem rodando, acesse os seguintes endereços no seu navegador:
-Aplicação Principal (Frontend):
-http://localhost:3000
-Use a interface para fazer o upload das suas 3 imagens e gerar uma receita.
-Documentação da API (Swagger):
-http://localhost:8080/swagger
-A documentação da API do backend está disponível através do Nginx. Use-a para explorar e testar os endpoints diretament
+<h1 align="center">🍲 FoodVision</h1>
+
+<p align="center">
+  <em>Transforme fotos de ingredientes em receitas únicas com Inteligência Artificial.</em>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-000000?style=flat&logo=nextdotjs" alt="Next.js"/>
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white" alt="TypeScript"/>
+  <img src="https://img.shields.io/badge/Elysia.js-FF6F61?style=flat&logo=javascript&logoColor=white" alt="Elysia.js"/>
+  <img src="https://img.shields.io/badge/Bun-000000?style=flat&logo=bun&logoColor=white" alt="Bun"/>
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=flat&logo=postgresql&logoColor=white" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white" alt="Docker"/>
+</p>
+
+---
+
+## 📖 Sobre o Projeto
+
+**FoodVision** é um projeto **full-stack** que utiliza **IA multimodal** para transformar imagens de ingredientes em **receitas completas e detalhadas**.
+
+- 📸 Faça upload de **3 fotos** de ingredientes.
+- 🤖 A IA identifica os itens e cria uma **receita única**.
+- 🐳 O projeto é **containerizado com Docker** e orquestrado via **Docker Compose**, garantindo escalabilidade e facilidade de manutenção.
+
+---
+
+## ✨ Tecnologias Utilizadas
+
+<details>
+  <summary><strong>🌐 Frontend</strong></summary>
+
+- ⚛️ <strong>Next.js</strong>: Framework React para interfaces modernas.
+- 🟦 <strong>TypeScript</strong>: Tipagem estática para maior segurança.
+- 🎨 <strong>Shadcn/UI & Tailwind CSS</strong>: UI elegante, acessível e customizável.
+</details>
+
+<details>
+  <summary><strong>⚙️ Backend</strong></summary>
+
+- 🚀 <strong>Elysia.js</strong>: Framework de alta performance sobre o Bun.
+- ⚡ <strong>Bun</strong>: Runtime JavaScript ultrarrápido.
+- 🛢️ <strong>PostgreSQL</strong>: Banco relacional robusto.
+- 🏗️ <strong>Clean Architecture & DDD</strong>: Padrões para escalabilidade.
+</details>
+
+<details>
+  <summary><strong>🧠 Inteligência Artificial</strong></summary>
+
+- 🤖 <strong>Google Gemini (1.5 Pro)</strong>: Reconhecimento de imagens e geração de texto.
+</details>
+
+<details>
+  <summary><strong>☁️ DevOps & Infraestrutura</strong></summary>
+
+- 🐳 <strong>Docker & Docker Compose</strong>: Containerização e orquestração.
+- 🌐 <strong>Nginx</strong>: Reverse Proxy para tráfego inteligente.
+</details>
+
+---
+
+## 🏛️ Arquitetura
+
+O projeto segue um **monorepo** com serviços independentes em containers, conectados por rede Docker e roteados pelo **Nginx**.
+
+```mermaid
+flowchart TD
+  A[Usuário (Navegador)] -->|http://localhost:3000| B[Nginx]
+  B -->|Página /| C[Frontend (Next.js)]
+  B -->|API /api/*| D[Backend (Elysia.js)]
+  D -->|Persistência| E[(PostgreSQL DB)]
+  D -->|IA| F[Google Gemini API]
+```
+
+---
+
+## 🚀 Como Executar
+
+### ✅ Pré-requisitos
+
+- [Docker](https://www.docker.com/) e [Docker Compose](https://docs.docker.com/compose/) instalados.
+- Uma **chave de API do Google Gemini** ([obter aqui](https://ai.google.dev/)).
+
+### 🔧 Passos de Instalação
+
+1. **Clonar o Repositório**
+
+   ```bash
+   git clone https://github.com/lucasmarques594/foodvision.git
+   cd foodvision
+   ```
+
+2. **Configurar Variáveis de Ambiente**
+
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+
+   Edite `backend/.env` e insira sua chave na variável:
+
+   ```env
+   GEMINI_API_KEY=suachaveaqui
+   ```
+
+3. **Subir os Containers**
+   ```bash
+   docker compose up --build
+   ```
+
+---
+
+## 💻 Como Usar
+
+- 🌍 **Aplicação Principal (Frontend):**  
+  [http://localhost:3000](http://localhost:3000)
+
+  Faça upload de 3 imagens de ingredientes e gere uma receita.
+
+- 📑 **Documentação da API (Swagger):**  
+  [http://localhost:8080/swagger](http://localhost:8080/swagger)
+
+---
+
+## 📌 Estrutura dos Serviços
+
+- **nginx** 🛡️ → Reverse Proxy e ponto único de entrada (porta 3000).
+- **frontend** 🎨 → Aplicação Next.js.
+- **backend** 🧠 → API REST com Elysia.js + integração com IA.
+- **db** 💾 → Banco PostgreSQL com persistência em volume Docker.
+
+---
+
+<h3 align="center">Feito com ❤️ por <a href="https://github.com/lucasmarques594">Lucas Marques</a></h3>
