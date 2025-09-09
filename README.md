@@ -63,14 +63,12 @@
 
 O projeto segue um **monorepo** com serviços independentes em containers, conectados por rede Docker e roteados pelo **Nginx**.
 
-```mermaid
 flowchart TD
-  A[Usuário (Navegador)] -->|http://localhost:3000| B[Nginx]
-  B -->|Página /| C[Frontend (Next.js)]
-  B -->|API /api/*| D[Backend (Elysia.js)]
-  D -->|Persistência| E[(PostgreSQL DB)]
-  D -->|IA| F[Google Gemini API]
-```
+A[Usuário (Navegador)] -->|http://localhost:3000| B[Nginx]
+B -->|Página /| C[Frontend (Next.js)]
+B -->|API /api/\*| D[Backend (Elysia.js)]
+D -->|Persistência| E[(PostgreSQL DB)]
+D -->|IA| F[Google Gemini API]
 
 ---
 
